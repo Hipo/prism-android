@@ -16,11 +16,11 @@ public class SampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        String url = Prism.withUrl(baseUrl).width(500).height(900).quality(95).cmd(Prism.cmd.CROP).getUrl();
+        String url = Prism.withUrl(baseUrl).width(500).height(900).quality(95).cmd(Prism.cmd.FIT).out(Prism.out.JPG).getUrl();
 
         ImageView imageView = findViewById(R.id.imageview);
         Picasso.with(this).load(url).into(imageView);
 
-
     }
+
 }

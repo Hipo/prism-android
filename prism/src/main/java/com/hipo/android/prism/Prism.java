@@ -7,6 +7,28 @@ import java.lang.annotation.RetentionPolicy;
 
 public class Prism {
 
+    @StringDef({
+            cmd.FIT,
+            cmd.CROP,
+            cmd.RESIZE
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface cmd {
+        String FIT = "resize_then_fit";
+        String CROP = "resize_then_crop";
+        String RESIZE = "resize";
+    }
+
+    @StringDef({
+            out.PNG,
+            out.JPG
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface out {
+        String PNG = "png";
+        String JPG = "jpg";
+    }
+
     private static final String QUESTION_MARK = "?";
     private static final Integer QUALITY_DEFAULT = 65;
 
@@ -18,8 +40,7 @@ public class Prism {
     private static final String CROP_HEIGHT = "&crop_height=";
     private static final String QUALITY = "&quality=";
     private static final String CMD_KEY = "&cmd=";
-
-    private static volatile Prism singleton = null;
+    private static final String OUT_KEY = "&out=";
 
     private String url;
     private Integer width;
@@ -33,17 +54,11 @@ public class Prism {
     @cmd
     private String cmdValue;
 
-    @StringDef({
-            cmd.FIT,
-            cmd.CROP,
-            cmd.RESIZE
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface cmd {
-        String FIT = "resize_then_fit";
-        String CROP = "resize_then_crop";
-        String RESIZE = "resize";
-    }
+    @out
+    private String outValue;
+
+
+    private static volatile Prism singleton = null;
 
     public static Prism withUrl(String url) {
         if (singleton == null) {
@@ -93,6 +108,11 @@ public class Prism {
 
     public Prism cmd(@cmd String cmdValue){
         singleton.cmdValue = cmdValue;
+        return singleton;
+    }
+
+    public Prism out(@out String outValue){
+        singleton.outValue = outValue;
         return singleton;
     }
 
@@ -150,12 +170,22 @@ public class Prism {
             url = url + QUALITY + QUALITY_DEFAULT;
         }
 
-        if (cmdValue.equals(cmd.CROP)){
-            url = url + CMD_KEY + cmd.CROP;
-        } else if (cmdValue.equals(cmd.FIT)){
-            url = url + CMD_KEY + cmd.FIT;
-        } else if (cmdValue.equals(cmd.RESIZE)){
-            url = url + CMD_KEY + cmd.RESIZE;
+        if (cmdValue != null) {
+            if (cmdValue.equals(cmd.CROP)) {
+                url = url + CMD_KEY + cmd.CROP;
+            } else if (cmdValue.equals(cmd.FIT)) {
+                url = url + CMD_KEY + cmd.FIT;
+            } else if (cmdValue.equals(cmd.RESIZE)) {
+                url = url + CMD_KEY + cmd.RESIZE;
+            }
+        }
+
+        if (outValue != null) {
+            if (outValue.equals(out.JPG)) {
+                url = url + OUT_KEY + out.JPG;
+            } else if (outValue.equals(out.PNG)) {
+                url = url + OUT_KEY + out.PNG;
+            }
         }
 
         return url;
