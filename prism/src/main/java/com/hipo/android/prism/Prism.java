@@ -1,5 +1,10 @@
 package com.hipo.android.prism;
 
+import android.support.annotation.StringDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class Prism {
 
     private static final String QUESTION_MARK = "?";
@@ -12,6 +17,7 @@ public class Prism {
     private static final String CROP_WIDTH = "&crop_width=";
     private static final String CROP_HEIGHT = "&crop_height=";
     private static final String QUALITY = "&quality=";
+    private static final String CMD_KEY = "&cmd=";
 
     private static volatile Prism singleton = null;
 
@@ -23,6 +29,21 @@ public class Prism {
     private Integer cropWidth;
     private Integer cropHeight;
     private Integer quality;
+
+    @cmd
+    private String cmdValue;
+
+    @StringDef({
+            cmd.FIT,
+            cmd.CROP,
+            cmd.RESIZE
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface cmd {
+        String FIT = "resize_then_fit";
+        String CROP = "resize_then_crop";
+        String RESIZE = "resize";
+    }
 
     public static Prism withUrl(String url) {
         if (singleton == null) {
@@ -67,6 +88,11 @@ public class Prism {
 
     public Prism quality(Integer quality){
         singleton.quality = quality;
+        return singleton;
+    }
+
+    public Prism cmd(@cmd String cmdValue){
+        singleton.cmdValue = cmdValue;
         return singleton;
     }
 
@@ -122,6 +148,14 @@ public class Prism {
             url = url + QUALITY + quality;
         } else {
             url = url + QUALITY + QUALITY_DEFAULT;
+        }
+
+        if (cmdValue.equals(cmd.CROP)){
+            url = url + CMD_KEY + cmd.CROP;
+        } else if (cmdValue.equals(cmd.FIT)){
+            url = url + CMD_KEY + cmd.FIT;
+        } else if (cmdValue.equals(cmd.RESIZE)){
+            url = url + CMD_KEY + cmd.RESIZE;
         }
 
         return url;
