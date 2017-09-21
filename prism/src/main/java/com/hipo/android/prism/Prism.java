@@ -1,10 +1,8 @@
 package com.hipo.android.prism;
 
-/**
- * Created by cagla on 21/09/2017.
- */
-
 public class Prism {
+
+    private static final String QUESTION_MARK = "?";
 
     private static final String WIDTH_QUERY = "&width=";
     private static final String HEIGHT_QUERY = "&height=";
@@ -16,50 +14,50 @@ public class Prism {
     private static volatile Prism singleton = null;
 
     private String url;
-    private Double width;
-    private Double height;
-    private Double cropx;
-    private Double cropy;
-    private Double cropWidth;
-    private Double cropHeight;
+    private Integer width;
+    private Integer height;
+    private Integer cropx;
+    private Integer cropy;
+    private Integer cropWidth;
+    private Integer cropHeight;
 
     public static Prism withUrl(String url) {
         if (singleton == null) {
             synchronized (Prism.class) {
                 if (singleton == null) {
-                    singleton = new Builder(url).build();
+                    singleton = new Builder(url + QUESTION_MARK).build();
                 }
             }
         }
         return singleton;
     }
 
-    public Prism width(double width) {
+    public Prism width(Integer width) {
         singleton.width = width;
         return singleton;
     }
 
-    public Prism height(double height) {
+    public Prism height(Integer height) {
         singleton.height = height;
         return singleton;
     }
 
-    public Prism cropX(double cropx) {
+    public Prism cropX(Integer cropx) {
         singleton.cropx = cropx;
         return singleton;
     }
 
-    public Prism cropY(double cropy) {
+    public Prism cropY(Integer cropy) {
         singleton.cropy = cropy;
         return singleton;
     }
 
-    public Prism cropWidth(double cropWidth) {
+    public Prism cropWidth(Integer cropWidth) {
         singleton.cropWidth = cropWidth;
         return singleton;
     }
 
-    public Prism cropHeight(double cropHeight) {
+    public Prism cropHeight(Integer cropHeight) {
         singleton.cropHeight = cropHeight;
         return singleton;
     }
@@ -100,15 +98,15 @@ public class Prism {
             url = url + CROP_X + cropx;
         }
 
-        if (width != null){
+        if (cropy != null){
             url = url + CROP_Y + cropy;
         }
 
-        if (width != null){
+        if (cropWidth != null){
             url = url + CROP_WIDTH + cropWidth;
         }
 
-        if (width != null){
+        if (cropHeight != null){
             url = url + CROP_HEIGHT + cropHeight;
         }
 
