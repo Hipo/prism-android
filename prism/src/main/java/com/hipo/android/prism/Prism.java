@@ -3,6 +3,7 @@ package com.hipo.android.prism;
 public class Prism {
 
     private static final String QUESTION_MARK = "?";
+    private static final Integer QUALITY_DEFAULT = 65;
 
     private static final String WIDTH_QUERY = "&width=";
     private static final String HEIGHT_QUERY = "&height=";
@@ -10,6 +11,7 @@ public class Prism {
     private static final String CROP_Y = "&crop_y=";
     private static final String CROP_WIDTH = "&crop_width=";
     private static final String CROP_HEIGHT = "&crop_height=";
+    private static final String QUALITY = "&quality=";
 
     private static volatile Prism singleton = null;
 
@@ -20,6 +22,7 @@ public class Prism {
     private Integer cropy;
     private Integer cropWidth;
     private Integer cropHeight;
+    private Integer quality;
 
     public static Prism withUrl(String url) {
         if (singleton == null) {
@@ -59,6 +62,11 @@ public class Prism {
 
     public Prism cropHeight(Integer cropHeight) {
         singleton.cropHeight = cropHeight;
+        return singleton;
+    }
+
+    public Prism quality(Integer quality){
+        singleton.quality = quality;
         return singleton;
     }
 
@@ -108,6 +116,12 @@ public class Prism {
 
         if (cropHeight != null){
             url = url + CROP_HEIGHT + cropHeight;
+        }
+
+        if (quality != null){
+            url = url + QUALITY + quality;
+        } else {
+            url = url + QUALITY + QUALITY_DEFAULT;
         }
 
         return url;
