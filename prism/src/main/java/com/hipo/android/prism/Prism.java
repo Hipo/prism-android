@@ -180,6 +180,10 @@ public class Prism {
             url = url + HEIGHT_QUERY + height;
         }
 
+        if (width == null && height == null){
+            throw new IllegalArgumentException("Width or height is required.");
+        }
+
         if (cropx != null){
             url = url + CROP_X + cropx;
         }
