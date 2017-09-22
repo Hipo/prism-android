@@ -1,6 +1,7 @@
 package com.hipo.android.prism;
 
 import android.support.annotation.StringDef;
+import android.text.TextUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -74,7 +75,8 @@ public class Prism {
         if (singleton == null) {
             synchronized (Prism.class) {
                 if (singleton == null) {
-                    singleton = new Builder(url + QUESTION_MARK).build();
+                    singleton = new Builder(url).build();
+                    singleton.url += QUESTION_MARK;
                 }
             }
         }
@@ -155,8 +157,8 @@ public class Prism {
 
         /** Start building a new {@link Prism} instance. */
         public Builder(String url) {
-            if (url == null) {
-                throw new IllegalArgumentException("Context must not be null.");
+            if (TextUtils.isEmpty(url)) {
+                throw new IllegalArgumentException("Url must not be null or empty.");
             }
             this.url = url;
         }
