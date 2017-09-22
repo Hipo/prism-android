@@ -80,7 +80,7 @@ Prism.withUrl(baseUrl)
 
 #####CMD
 
-cmd() method can contain only three options: fit, crop, resize.
+cmd() method can contain only threer options: fit, crop, resize.
 
 ```
 Prism.withUrl(baseUrl)
