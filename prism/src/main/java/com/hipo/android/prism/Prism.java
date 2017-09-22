@@ -45,8 +45,8 @@ public class Prism {
     private static final String OUT_KEY = "&OUT=";
     private static final String FRAME_BG_COLOR = "&frame_bg_color=";
     private static final String NO_REDIRECT = "&no_redirect=";
-    private static final String PREMULTIPLIED = "&premultiplied="; //TODO: is it have default value?
-    private static final String PRESERVE_RATIO = "&preserve_ratio="; //TODO: is it have default value?
+    private static final String PREMULTIPLIED = "&premultiplied="; // about tranparency
+    private static final String PRESERVE_RATIO = "&preserve_ratio=";
 
     private String url;
     private Integer width;
@@ -228,20 +228,16 @@ public class Prism {
             url = url + NO_REDIRECT + ZERO;
         }
 
-        if (preMultiplied != null){
-            if (preMultiplied){
-                url = url + PREMULTIPLIED + ONE;
-            } else {
-                url = url + PREMULTIPLIED + ZERO;
-            }
+        if (preMultiplied != null && preMultiplied){
+            url = url + PREMULTIPLIED + ONE;
+        } else {
+            url = url + PREMULTIPLIED + ZERO;
         }
 
-        if (preserveRatio != null){
-            if (preserveRatio){
-                url = url + PRESERVE_RATIO + ONE;
-            } else {
-                url = url + PRESERVE_RATIO + ZERO;
-            }
+        if (preserveRatio != null && !preserveRatio){
+            url = url + PRESERVE_RATIO + ZERO;
+        } else {
+            url = url + PRESERVE_RATIO + ONE;
         }
 
         return url;

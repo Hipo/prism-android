@@ -16,7 +16,7 @@ public class SampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        String url = Prism.withUrl(baseUrl).width(500).height(900).quality(95).backgroundColor("010101").getUrl();
+        String url = Prism.withUrl(baseUrl).width(500).height(900).quality(95).backgroundColor("010101").preserveRatio(true).preMultiplied(true).getUrl();
 
         ImageView imageView = findViewById(R.id.imageview);
         Picasso.with(this).load(url).into(imageView);
