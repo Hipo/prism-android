@@ -8,29 +8,31 @@ import java.lang.annotation.RetentionPolicy;
 public class Prism {
 
     @StringDef({
-            cmd.FIT,
-            cmd.CROP,
-            cmd.RESIZE
+            CMD.FIT,
+            CMD.CROP,
+            CMD.RESIZE
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface cmd {
+    public @interface CMD {
         String FIT = "resize_then_fit";
         String CROP = "resize_then_crop";
         String RESIZE = "resize";
     }
 
     @StringDef({
-            out.PNG,
-            out.JPG
+            OUT.PNG,
+            OUT.JPG
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface out {
+    public @interface OUT {
         String PNG = "png";
         String JPG = "jpg";
     }
 
     private static final String QUESTION_MARK = "?";
     private static final Integer QUALITY_DEFAULT = 65;
+    private static final Integer ZERO = 0;
+    private static final Integer ONE = 1;
 
     private static final String WIDTH_QUERY = "&width=";
     private static final String HEIGHT_QUERY = "&height=";
@@ -39,8 +41,12 @@ public class Prism {
     private static final String CROP_WIDTH = "&crop_width=";
     private static final String CROP_HEIGHT = "&crop_height=";
     private static final String QUALITY = "&quality=";
-    private static final String CMD_KEY = "&cmd=";
-    private static final String OUT_KEY = "&out=";
+    private static final String CMD_KEY = "&CMD=";
+    private static final String OUT_KEY = "&OUT=";
+    private static final String FRAME_BG_COLOR = "&frame_bg_color=";
+    private static final String NO_REDIRECT = "&no_redirect=";
+    private static final String PREMULTIPLIED = "&premultiplied="; //TODO: is it have default value?
+    private static final String PRESERVE_RATIO = "&preserve_ratio="; //TODO: is it have default value?
 
     private String url;
     private Integer width;
@@ -50,11 +56,15 @@ public class Prism {
     private Integer cropWidth;
     private Integer cropHeight;
     private Integer quality;
+    private String backgroundColor;
+    private Boolean noRedirect;
+    private Boolean preMultiplied;
+    private Boolean preserveRatio;
 
-    @cmd
+    @CMD
     private String cmdValue;
 
-    @out
+    @OUT
     private String outValue;
 
 
@@ -106,13 +116,33 @@ public class Prism {
         return singleton;
     }
 
-    public Prism cmd(@cmd String cmdValue){
+    public Prism cmd(@CMD String cmdValue){
         singleton.cmdValue = cmdValue;
         return singleton;
     }
 
-    public Prism out(@out String outValue){
+    public Prism out(@OUT String outValue){
         singleton.outValue = outValue;
+        return singleton;
+    }
+
+    public Prism backgroundColor(String backgroundColor){
+        singleton.backgroundColor = backgroundColor;
+        return singleton;
+    }
+
+    public Prism noReDirect(Boolean noRedirect){
+        singleton.noRedirect = noRedirect;
+        return singleton;
+    }
+
+    public Prism preMultiplied(Boolean preMultiplied){
+        singleton.preMultiplied = preMultiplied;
+        return singleton;
+    }
+
+    public Prism preserveRatio(Boolean preserveRatio){
+        singleton.preserveRatio = preserveRatio;
         return singleton;
     }
 
@@ -171,20 +201,46 @@ public class Prism {
         }
 
         if (cmdValue != null) {
-            if (cmdValue.equals(cmd.CROP)) {
-                url = url + CMD_KEY + cmd.CROP;
-            } else if (cmdValue.equals(cmd.FIT)) {
-                url = url + CMD_KEY + cmd.FIT;
-            } else if (cmdValue.equals(cmd.RESIZE)) {
-                url = url + CMD_KEY + cmd.RESIZE;
+            if (cmdValue.equals(CMD.CROP)) {
+                url = url + CMD_KEY + CMD.CROP;
+            } else if (cmdValue.equals(CMD.FIT)) {
+                url = url + CMD_KEY + CMD.FIT;
+            } else if (cmdValue.equals(CMD.RESIZE)) {
+                url = url + CMD_KEY + CMD.RESIZE;
             }
         }
 
         if (outValue != null) {
-            if (outValue.equals(out.JPG)) {
-                url = url + OUT_KEY + out.JPG;
-            } else if (outValue.equals(out.PNG)) {
-                url = url + OUT_KEY + out.PNG;
+            if (outValue.equals(OUT.JPG)) {
+                url = url + OUT_KEY + OUT.JPG;
+            } else if (outValue.equals(OUT.PNG)) {
+                url = url + OUT_KEY + OUT.PNG;
+            }
+        }
+
+        if (backgroundColor != null){
+            url = url + FRAME_BG_COLOR + backgroundColor;
+        }
+
+        if (noRedirect != null && noRedirect) {
+            url = url + NO_REDIRECT + ONE;
+        } else {
+            url = url + NO_REDIRECT + ZERO;
+        }
+
+        if (preMultiplied != null){
+            if (preMultiplied){
+                url = url + PREMULTIPLIED + ONE;
+            } else {
+                url = url + PREMULTIPLIED + ZERO;
+            }
+        }
+
+        if (preserveRatio != null){
+            if (preserveRatio){
+                url = url + PRESERVE_RATIO + ONE;
+            } else {
+                url = url + PRESERVE_RATIO + ZERO;
             }
         }
 
