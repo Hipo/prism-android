@@ -133,7 +133,7 @@ public class Prism {
         return singleton;
     }
 
-    public Prism noReDirect(Boolean noRedirect){
+    public Prism noRedirect(Boolean noRedirect){
         singleton.noRedirect = noRedirect;
         return singleton;
     }
