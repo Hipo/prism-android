@@ -69,83 +69,83 @@ public class Prism {
     private String outValue;
 
 
-    private static volatile Prism singleton = null;
+    private static volatile Prism prism = null;
 
     public static Prism withUrl(String url) {
-        if (singleton == null) {
+        if (prism == null) {
             synchronized (Prism.class) {
-                if (singleton == null) {
-                    singleton = new Builder(url).build();
-                    singleton.url += QUESTION_MARK;
+                if (prism == null) {
+                    prism = new Builder(url).build();
+                    prism.url += QUESTION_MARK;
                 }
             }
         }
-        return singleton;
+        return prism;
     }
 
     public Prism width(Integer width) {
-        singleton.width = width;
-        return singleton;
+        prism.width = width;
+        return prism;
     }
 
     public Prism height(Integer height) {
-        singleton.height = height;
-        return singleton;
+        prism.height = height;
+        return prism;
     }
 
     public Prism cropX(Integer cropx) {
-        singleton.cropx = cropx;
-        return singleton;
+        prism.cropx = cropx;
+        return prism;
     }
 
     public Prism cropY(Integer cropy) {
-        singleton.cropy = cropy;
-        return singleton;
+        prism.cropy = cropy;
+        return prism;
     }
 
     public Prism cropWidth(Integer cropWidth) {
-        singleton.cropWidth = cropWidth;
-        return singleton;
+        prism.cropWidth = cropWidth;
+        return prism;
     }
 
     public Prism cropHeight(Integer cropHeight) {
-        singleton.cropHeight = cropHeight;
-        return singleton;
+        prism.cropHeight = cropHeight;
+        return prism;
     }
 
     public Prism quality(Integer quality){
-        singleton.quality = quality;
-        return singleton;
+        prism.quality = quality;
+        return prism;
     }
 
     public Prism cmd(@CMD String cmdValue){
-        singleton.cmdValue = cmdValue;
-        return singleton;
+        prism.cmdValue = cmdValue;
+        return prism;
     }
 
     public Prism out(@OUT String outValue){
-        singleton.outValue = outValue;
-        return singleton;
+        prism.outValue = outValue;
+        return prism;
     }
 
     public Prism backgroundColor(String backgroundColor){
-        singleton.backgroundColor = backgroundColor;
-        return singleton;
+        prism.backgroundColor = backgroundColor;
+        return prism;
     }
 
-    public Prism noReDirect(Boolean noRedirect){
-        singleton.noRedirect = noRedirect;
-        return singleton;
+    public Prism noRedirect(Boolean noRedirect){
+        prism.noRedirect = noRedirect;
+        return prism;
     }
 
     public Prism preMultiplied(Boolean preMultiplied){
-        singleton.preMultiplied = preMultiplied;
-        return singleton;
+        prism.preMultiplied = preMultiplied;
+        return prism;
     }
 
     public Prism preserveRatio(Boolean preserveRatio){
-        singleton.preserveRatio = preserveRatio;
-        return singleton;
+        prism.preserveRatio = preserveRatio;
+        return prism;
     }
 
     Prism(String url) {
